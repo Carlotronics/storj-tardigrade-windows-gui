@@ -5,12 +5,9 @@ using System.Text.RegularExpressions;
 public class CLIUplink
 {
     string filename;
-	public CLIUplink(string path=".\\", string filename= "uplink_windows_amd64.exe")
+	public CLIUplink(string path= ".\\uplink_windows_amd64.exe")
     {
-        string last = path.Substring(path.Length - 1);
-        if (last != "\\" && last != "/")
-            path += "\\";
-        this.filename = path + filename;
+        this.filename = path;
     }
 
     public void test(string cmd)

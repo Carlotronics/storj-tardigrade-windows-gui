@@ -89,5 +89,24 @@ namespace StorjTardigradeWindowsGui
             DialogResult dialogResult = form.ShowDialog();
             return dialogResult;
         }
+
+        public static string FilePrompt(string title)
+        {
+            var filePath = string.Empty;
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = @"c:\";
+                openFileDialog.Filter = "Application files (*.exe)|*.exe|All files (*.*)|*.*";
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    filePath = openFileDialog.FileName;
+                    return filePath;
+                }
+
+                return null;
+            }
+        }
     }
 }
