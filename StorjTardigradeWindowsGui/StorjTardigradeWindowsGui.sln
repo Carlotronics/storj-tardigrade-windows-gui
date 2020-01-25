@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.438
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorjTardigradeWindowsGui", "StorjTardigradeWindowsGui\StorjTardigradeWindowsGui.csproj", "{B25C6B12-3ED7-4A8F-A228-BC8379F4B605}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B25C6B12-3ED7-4A8F-A228-BC8379F4B605}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B25C6B12-3ED7-4A8F-A228-BC8379F4B605}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B25C6B12-3ED7-4A8F-A228-BC8379F4B605}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B25C6B12-3ED7-4A8F-A228-BC8379F4B605}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D73FA365-0BEC-4961-B115-89CC5118B112}
+	EndGlobalSection
+EndGlobal
