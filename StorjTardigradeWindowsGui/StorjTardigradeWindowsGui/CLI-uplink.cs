@@ -22,7 +22,7 @@ public class CLIUplink
         Console.WriteLine("==============================\n");
     }
 
-    private List<String> RunCommand(string cmd)
+    private List<String> RunCommand(string cmd, bool RedirectStandardOutput=true)
     {
         Console.WriteLine(this.filename);
         System.Diagnostics.Process p = new System.Diagnostics.Process();
@@ -31,7 +31,7 @@ public class CLIUplink
         p.StartInfo.FileName = this.filename;
         p.StartInfo.Arguments = cmd;
         // p.StartInfo = startInfo;
-        p.StartInfo.RedirectStandardOutput = true;
+        p.StartInfo.RedirectStandardOutput = RedirectStandardOutput;
         p.StartInfo.UseShellExecute = false;
         p.Start();
 
@@ -45,9 +45,13 @@ public class CLIUplink
         return q;
         */
 
-        string output = p.StandardOutput.ReadToEnd();
-        p.WaitForExit();
-        return this.ParseOutput(output);
+        if(RedirectStandardOutput)
+        {
+            string output = p.StandardOutput.ReadToEnd();
+            p.WaitForExit();
+            return this.ParseOutput(output);
+        }
+        return null;
     }
 
     private List<String> ParseOutput(string outp)
@@ -69,10 +73,22 @@ public class CLIUplink
             RegexOptions.IgnorePatternWhitespace);
         return (line).Split(' ');
     }
+    
+    public void AuthenticateCLIUplink()
+    {
+        string cmd = "setup";
+        this.RunCommand(cmd, false);
+    }
 
-    // TODO
-    public void AuthenticateCLIUplink(string APIKey)
-    { }
+    public bool IsRegistered()
+    {
+        string cmd = "access inspect";
+        List<String> outp = this.RunCommand(cmd);
+        Console.WriteLine("Out", outp);
+        if (outp.Count == 0)
+            return false;
+        return true;
+    }
 
     public List<Dictionary<string, string>> ListBuckets()
     {

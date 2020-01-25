@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DialogBox.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="CLI-uplink.cs" />
     <Compile Include="MainGUI.cs">

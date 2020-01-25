@@ -35,7 +35,11 @@
             this.buttonCreateBucket = new System.Windows.Forms.Button();
             this.buttonListBuckets = new System.Windows.Forms.Button();
             this.groupOutput = new System.Windows.Forms.GroupBox();
+            this.bucketControls = new System.Windows.Forms.GroupBox();
+            this.groupMyBuckets = new System.Windows.Forms.GroupBox();
+            this.listMyBuckets = new System.Windows.Forms.ListView();
             this.groupManageBuckets.SuspendLayout();
+            this.groupMyBuckets.SuspendLayout();
             this.SuspendLayout();
             // 
             // title
@@ -67,11 +71,12 @@
             // 
             this.groupManageBuckets.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupManageBuckets.Controls.Add(this.groupMyBuckets);
             this.groupManageBuckets.Controls.Add(this.buttonCreateBucket);
             this.groupManageBuckets.Controls.Add(this.buttonListBuckets);
             this.groupManageBuckets.Location = new System.Drawing.Point(12, 78);
             this.groupManageBuckets.Name = "groupManageBuckets";
-            this.groupManageBuckets.Size = new System.Drawing.Size(312, 374);
+            this.groupManageBuckets.Size = new System.Drawing.Size(217, 374);
             this.groupManageBuckets.TabIndex = 2;
             this.groupManageBuckets.TabStop = false;
             this.groupManageBuckets.Text = "Manage buckets";
@@ -84,6 +89,7 @@
             this.buttonCreateBucket.TabIndex = 0;
             this.buttonCreateBucket.Text = "Create bucket";
             this.buttonCreateBucket.UseVisualStyleBackColor = true;
+            this.buttonCreateBucket.Click += new System.EventHandler(this.buttonCreateBucket_Click);
             // 
             // buttonListBuckets
             // 
@@ -93,6 +99,7 @@
             this.buttonListBuckets.TabIndex = 0;
             this.buttonListBuckets.Text = "List buckets";
             this.buttonListBuckets.UseVisualStyleBackColor = true;
+            this.buttonListBuckets.Click += new System.EventHandler(this.buttonListBuckets_Click);
             // 
             // groupOutput
             // 
@@ -105,11 +112,41 @@
             this.groupOutput.TabStop = false;
             this.groupOutput.Text = "Output";
             // 
+            // bucketControls
+            // 
+            this.bucketControls.Location = new System.Drawing.Point(235, 78);
+            this.bucketControls.Name = "bucketControls";
+            this.bucketControls.Size = new System.Drawing.Size(338, 374);
+            this.bucketControls.TabIndex = 4;
+            this.bucketControls.TabStop = false;
+            this.bucketControls.Text = "Bucket";
+            // 
+            // groupMyBuckets
+            // 
+            this.groupMyBuckets.Controls.Add(this.listMyBuckets);
+            this.groupMyBuckets.Location = new System.Drawing.Point(7, 168);
+            this.groupMyBuckets.Name = "groupMyBuckets";
+            this.groupMyBuckets.Size = new System.Drawing.Size(200, 189);
+            this.groupMyBuckets.TabIndex = 1;
+            this.groupMyBuckets.TabStop = false;
+            this.groupMyBuckets.Text = "My buckets";
+            this.groupMyBuckets.Visible = false;
+            // 
+            // listMyBuckets
+            // 
+            this.listMyBuckets.HideSelection = false;
+            this.listMyBuckets.Location = new System.Drawing.Point(7, 22);
+            this.listMyBuckets.Name = "listMyBuckets";
+            this.listMyBuckets.Size = new System.Drawing.Size(187, 161);
+            this.listMyBuckets.TabIndex = 0;
+            this.listMyBuckets.UseCompatibleStateImageBehavior = false;
+            // 
             // MainGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(946, 464);
+            this.Controls.Add(this.bucketControls);
             this.Controls.Add(this.groupOutput);
             this.Controls.Add(this.groupManageBuckets);
             this.Controls.Add(this.label2);
@@ -118,6 +155,7 @@
             this.Name = "MainGUI";
             this.Text = "Storj Uplink GUI";
             this.groupManageBuckets.ResumeLayout(false);
+            this.groupMyBuckets.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -131,6 +169,9 @@
         private System.Windows.Forms.Button buttonListBuckets;
         private System.Windows.Forms.GroupBox groupOutput;
         private System.Windows.Forms.Button buttonCreateBucket;
+        private System.Windows.Forms.GroupBox bucketControls;
+        private System.Windows.Forms.GroupBox groupMyBuckets;
+        private System.Windows.Forms.ListView listMyBuckets;
     }
 }
 

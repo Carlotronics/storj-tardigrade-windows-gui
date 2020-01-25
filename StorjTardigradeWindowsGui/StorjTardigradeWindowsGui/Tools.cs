@@ -10,6 +10,7 @@ namespace StorjTardigradeWindowsGui
     {
         internal static void PrintListOfDict(List<Dictionary<string, string>> d)
         {
+            Console.WriteLine("\t==============");
             foreach (var _d in d)
             {
                 foreach (var pair in _d)
@@ -17,6 +18,7 @@ namespace StorjTardigradeWindowsGui
                     Console.WriteLine("\t" + pair.Key + " : " + pair.Value);
                 }
             }
+            Console.WriteLine();
         }
     }
 }
