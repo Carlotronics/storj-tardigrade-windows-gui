@@ -39,14 +39,15 @@
             this.buttonListBuckets = new System.Windows.Forms.Button();
             this.bucketContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.groupOutput = new System.Windows.Forms.GroupBox();
+            this.textBoxLogOutput = new System.Windows.Forms.RichTextBox();
             this.bucketControls = new System.Windows.Forms.GroupBox();
             this.boxBucketFiles = new System.Windows.Forms.GroupBox();
             this.listBoxBucketFiles = new System.Windows.Forms.ListBox();
             this.buttonBucketListFiles = new System.Windows.Forms.Button();
             this.buttonDeleteBucket = new System.Windows.Forms.Button();
+            this.buttonRetrieveFile = new System.Windows.Forms.Button();
             this.buttonBucketRemoveFile = new System.Windows.Forms.Button();
             this.buttonBucketUploadFile = new System.Windows.Forms.Button();
-            this.textBoxLogOutput = new System.Windows.Forms.RichTextBox();
             this.groupManageBuckets.SuspendLayout();
             this.groupMyBuckets.SuspendLayout();
             this.groupOutput.SuspendLayout();
@@ -153,12 +154,23 @@
             this.groupOutput.TabStop = false;
             this.groupOutput.Text = "Output";
             // 
+            // textBoxLogOutput
+            // 
+            this.textBoxLogOutput.Location = new System.Drawing.Point(7, 21);
+            this.textBoxLogOutput.Name = "textBoxLogOutput";
+            this.textBoxLogOutput.ReadOnly = true;
+            this.textBoxLogOutput.Size = new System.Drawing.Size(427, 499);
+            this.textBoxLogOutput.TabIndex = 1;
+            this.textBoxLogOutput.Text = "";
+            this.textBoxLogOutput.TextChanged += new System.EventHandler(this.event_textBoxLogOutput_changed);
+            // 
             // bucketControls
             // 
             this.bucketControls.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.bucketControls.Controls.Add(this.boxBucketFiles);
             this.bucketControls.Controls.Add(this.buttonBucketListFiles);
             this.bucketControls.Controls.Add(this.buttonDeleteBucket);
+            this.bucketControls.Controls.Add(this.buttonRetrieveFile);
             this.bucketControls.Controls.Add(this.buttonBucketRemoveFile);
             this.bucketControls.Controls.Add(this.buttonBucketUploadFile);
             this.bucketControls.Location = new System.Drawing.Point(320, 60);
@@ -211,10 +223,21 @@
             this.buttonDeleteBucket.UseVisualStyleBackColor = true;
             this.buttonDeleteBucket.Click += new System.EventHandler(this.event_DeleteBucket);
             // 
+            // buttonRetrieveFile
+            // 
+            this.buttonRetrieveFile.Enabled = false;
+            this.buttonRetrieveFile.Location = new System.Drawing.Point(202, 113);
+            this.buttonRetrieveFile.Name = "buttonRetrieveFile";
+            this.buttonRetrieveFile.Size = new System.Drawing.Size(112, 48);
+            this.buttonRetrieveFile.TabIndex = 0;
+            this.buttonRetrieveFile.Text = "Download file";
+            this.buttonRetrieveFile.UseVisualStyleBackColor = true;
+            this.buttonRetrieveFile.Click += new System.EventHandler(this.event_DownloadFileFromBucket);
+            // 
             // buttonBucketRemoveFile
             // 
             this.buttonBucketRemoveFile.Enabled = false;
-            this.buttonBucketRemoveFile.Location = new System.Drawing.Point(187, 113);
+            this.buttonBucketRemoveFile.Location = new System.Drawing.Point(202, 47);
             this.buttonBucketRemoveFile.Name = "buttonBucketRemoveFile";
             this.buttonBucketRemoveFile.Size = new System.Drawing.Size(112, 48);
             this.buttonBucketRemoveFile.TabIndex = 0;
@@ -231,15 +254,6 @@
             this.buttonBucketUploadFile.Text = "Upload file";
             this.buttonBucketUploadFile.UseVisualStyleBackColor = true;
             this.buttonBucketUploadFile.Click += new System.EventHandler(this.event_UploadFileToBucket);
-            // 
-            // textBoxLogOutput
-            // 
-            this.textBoxLogOutput.Enabled = false;
-            this.textBoxLogOutput.Location = new System.Drawing.Point(7, 21);
-            this.textBoxLogOutput.Name = "textBoxLogOutput";
-            this.textBoxLogOutput.Size = new System.Drawing.Size(427, 499);
-            this.textBoxLogOutput.TabIndex = 1;
-            this.textBoxLogOutput.Text = "";
             // 
             // MainGUI
             // 
@@ -283,6 +297,7 @@
         private System.Windows.Forms.GroupBox boxBucketFiles;
         private System.Windows.Forms.ListBox listBoxBucketFiles;
         private System.Windows.Forms.RichTextBox textBoxLogOutput;
+        private System.Windows.Forms.Button buttonRetrieveFile;
     }
 }
 
