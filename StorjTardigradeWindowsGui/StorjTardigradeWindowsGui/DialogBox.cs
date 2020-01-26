@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,8 @@ namespace StorjTardigradeWindowsGui
 
     public static class DialogBox
     {
+        internal static string lastPath = @"C:\";
+
         public static DialogResult Prompt(string title, string promptText, ref string value)
         {
             Form form = new Form();
@@ -90,18 +93,59 @@ namespace StorjTardigradeWindowsGui
             return dialogResult;
         }
 
-        public static string FilePrompt(string title)
+        public static DialogResult Confirm(string title, string message, string text_OK= "OK", string text_cancel= "Cancel")
+        {
+            Form form = new Form();
+            Label label = new Label();
+            Button buttonOk = new Button();
+            Button buttonCancel = new Button();
+
+            form.Text = title;
+            label.Text = message;
+
+            buttonOk.Text = text_OK;
+            buttonCancel.Text = text_cancel;
+            buttonOk.DialogResult = DialogResult.OK;
+            buttonCancel.DialogResult = DialogResult.Cancel;
+
+            label.SetBounds(9, 20, 372, 13);
+            buttonOk.SetBounds(228, 100, 75, 23);
+            buttonCancel.SetBounds(309, 100, 75, 23);
+
+            label.AutoSize = true;
+            buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+
+            form.ClientSize = new Size(396, 130);
+            form.Controls.AddRange(new Control[] { label, buttonOk, buttonCancel });
+            form.ClientSize = new Size(Math.Max(300, label.Right + 10), form.ClientSize.Height);
+            form.FormBorderStyle = FormBorderStyle.FixedDialog;
+            form.StartPosition = FormStartPosition.CenterScreen;
+            form.MinimizeBox = false;
+            form.MaximizeBox = false;
+            form.AcceptButton = buttonOk;
+            form.CancelButton = buttonCancel;
+
+            DialogResult dialogResult = form.ShowDialog();
+            return dialogResult;
+        }
+
+        public static string FilePrompt(string title, string filter=null)
         {
             var filePath = string.Empty;
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.InitialDirectory = @"c:\";
-                openFileDialog.Filter = "Application files (*.exe)|*.exe|All files (*.*)|*.*";
+                openFileDialog.Title = title;
+                openFileDialog.InitialDirectory = lastPath;
+                if(filter != null)
+                    openFileDialog.Filter = filter;
                 openFileDialog.RestoreDirectory = true;
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     filePath = openFileDialog.FileName;
+                    lastPath = Path.GetDirectoryName(filePath);
+                    Tools.SaveSettings();
                     return filePath;
                 }
 

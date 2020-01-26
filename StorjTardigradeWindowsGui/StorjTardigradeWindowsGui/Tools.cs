@@ -28,6 +28,8 @@ namespace StorjTardigradeWindowsGui
             if(key != null)
             {
                 Program.UplinkCLIPath = (string) key.GetValue("UplinkCLIPath");
+                if(key.GetValue("filePrompt-lastPath") != null)
+                    DialogBox.lastPath = (string) key.GetValue("filePrompt-lastPath");
 
                 if (Program.UplinkCLIPath == null)
                     return false;
@@ -41,6 +43,15 @@ namespace StorjTardigradeWindowsGui
         {
             RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\StorjTardigradeWindowsGui");
             key.SetValue("UplinkCLIPath", Program.UplinkCLIPath);
+            key.SetValue("filePrompt-lastPath", DialogBox.lastPath);
+        }
+
+        internal static string JoinList(string sep, List<string> list)
+        {
+            string s = "";
+            foreach (var el in list)
+                s += el + sep;
+            return s.Length> sep.Length ? s.Substring(0, s.Length - sep.Length) : s;
         }
     }
 }

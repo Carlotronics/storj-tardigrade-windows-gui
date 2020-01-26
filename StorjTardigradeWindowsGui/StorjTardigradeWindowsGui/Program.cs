@@ -27,7 +27,7 @@ namespace StorjTardigradeWindowsGui
             {
                 if (DialogBox.Alert("Uplink CLI location", "Please select the Uplink CLI file in the following window.") == DialogResult.OK)
                 {
-                    UplinkCLIPath = DialogBox.FilePrompt("Uplink CLI Path");
+                    UplinkCLIPath = DialogBox.FilePrompt("Uplink CLI Path", "Application files (*.exe)|*.exe|All files (*.*)|*.*");
                 }
                 else
                     System.Environment.Exit(2);

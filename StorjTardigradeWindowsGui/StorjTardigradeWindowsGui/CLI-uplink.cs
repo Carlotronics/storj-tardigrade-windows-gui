@@ -30,6 +30,7 @@ public class CLIUplink
         // p.StartInfo = startInfo;
         p.StartInfo.RedirectStandardOutput = RedirectStandardOutput;
         p.StartInfo.UseShellExecute = false;
+        p.StartInfo.RedirectStandardError = false;
         p.Start();
 
         /*
@@ -93,6 +94,10 @@ public class CLIUplink
         List<String> outp = this.RunCommand(cmd);
 
         List<Dictionary<string, string>> final = new List<Dictionary<string, string>>();
+
+        if (outp.Count == 1 && outp[0].Equals("No buckets"))
+            return final;
+
         foreach (string line in outp)
         {
             Dictionary<string, string> d = new Dictionary<string, string>();
@@ -114,7 +119,7 @@ public class CLIUplink
 
     public List<Dictionary<string, string>> ListFilesInBucket(string bucketName)
     {
-        string cmd = "ls sj://" + bucketName + "/";
+        string cmd = "ls \"sj://" + bucketName + "/\"";
         List<String> outp = this.RunCommand(cmd);
 
         List<Dictionary<string, string>> final = new List<Dictionary<string, string>>();
@@ -140,7 +145,7 @@ public class CLIUplink
     
     public bool CreateBucket(string name)
     {
-        string cmd = "mb sj://" + name + "/";
+        string cmd = "mb \"sj://" + name + "/\"";
         List<String> outp = this.RunCommand(cmd);
         if (outp.Count == 0)
             return false;
@@ -149,18 +154,32 @@ public class CLIUplink
     
     public bool DeleteBucket(string name)
     {
-        string cmd = "rb sj://" + name + "/";
+        string cmd = "rb \"sj://" + name + "/\"";
         List<String> outp = this.RunCommand(cmd);
         if (outp.Count == 0)
             return false;
         return true;
     }
-
-    // TODO
-    public void UploadToBucket()
-    { }
-
-    // TODO
-    public void RemoveFromBucket()
-    { }
+    
+    public void UploadToBucket(string bucket, string localFilename, string distantFilename="")
+    {
+        string cmd = "cp \""+localFilename+"\" \"sj://"+bucket+"/"+distantFilename+"\"";
+        
+        // List<String> outp = 
+        this.RunCommand(cmd, false);
+        /*
+        if (outp.Count == 0)
+            return false;
+        return true;
+        */
+    }
+    
+    public bool RemoveFromBucket(string bucket, string filename)
+    {
+        string cmd = "rm \"sj://" + bucket + "/" + filename + "\"";
+        List<String> outp = this.RunCommand(cmd);
+        if (outp.Count == 0)
+            return false;
+        return true;
+    }
 } 
