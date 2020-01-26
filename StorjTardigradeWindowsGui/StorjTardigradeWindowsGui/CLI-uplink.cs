@@ -43,12 +43,14 @@ public class CLIUplink
         return q;
         */
 
-        if(RedirectStandardOutput)
+        if (RedirectStandardOutput)
         {
             string output = p.StandardOutput.ReadToEnd();
             p.WaitForExit();
             return this.ParseOutput(output);
         }
+        else
+            p.WaitForExit();
         return null;
     }
 
@@ -163,15 +165,18 @@ public class CLIUplink
     
     public void UploadToBucket(string bucket, string localFilename, string distantFilename="")
     {
-        string cmd = "cp \""+localFilename+"\" \"sj://"+bucket+"/"+distantFilename+"\"";
-        
-        // List<String> outp = 
+        this.Copy(localFilename, "sj://" + bucket + "/" + distantFilename);
+    }
+
+    public void DownloadFromBucket(string bucket, string localFilename, string remoteFilename)
+    {
+        this.Copy("sj://" + bucket + "/" + remoteFilename, localFilename);
+    }
+
+    private void Copy(string from, string to)
+    {
+        string cmd = "cp \"" + from + "\" \"" + to + "\"";
         this.RunCommand(cmd, false);
-        /*
-        if (outp.Count == 0)
-            return false;
-        return true;
-        */
     }
     
     public bool RemoveFromBucket(string bucket, string filename)
