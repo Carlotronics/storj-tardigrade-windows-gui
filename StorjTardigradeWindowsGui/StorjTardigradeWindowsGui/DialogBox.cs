@@ -152,5 +152,30 @@ namespace StorjTardigradeWindowsGui
                 return null;
             }
         }
+
+        public static string FileSavePrompt(string title, string defaultFilename="", string filter=null)
+        {
+            Console.WriteLine(Path.GetExtension(defaultFilename));
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            if (filter == null)
+            {
+                string ext = "*" + Path.GetExtension(defaultFilename);
+                saveFileDialog.Filter = "Default ("+ext+")|"+ext+"|All files (*.*)|*.*";
+            }
+            else
+                saveFileDialog.Filter = filter;
+            saveFileDialog.Title = title;
+            saveFileDialog.InitialDirectory = lastPath;
+            saveFileDialog.FileName = defaultFilename;
+            saveFileDialog.DefaultExt = Path.GetExtension(defaultFilename);
+            
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filename = saveFileDialog.FileName;
+                return filename;
+            }
+
+            return null;
+        }
     }
 }
