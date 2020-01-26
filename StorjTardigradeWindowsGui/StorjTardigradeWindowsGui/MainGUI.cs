@@ -71,6 +71,7 @@ namespace StorjTardigradeWindowsGui
         private void ListBucketFiles()
         {
             List<Dictionary<string, string>> filesList = Program.cli.ListFilesInBucket(this.currentBucketName);
+            this.listBoxBucketFiles.Items.Clear();
 
             if (filesList.Count > 0)
             {
@@ -99,21 +100,25 @@ namespace StorjTardigradeWindowsGui
             {
                 bool _v = verbose;
                 this.verbose = false;
-                ListBucketFiles();
-                foreach (string file in this.listBoxBucketFiles.Items)
-                    Program.cli.RemoveFromBucket(this.currentBucketName, file);
-                verbose = _v;
 
-                if (Program.cli.DeleteBucket(this.currentBucketName))
+                ListBucketFiles();
+                if (this.listBoxBucketFiles.Items.Count == 0 || DialogBox.Confirm("Delete files inside bucket", "You are going to permanently delete " + this.listBoxBucketFiles.Items.Count.ToString() + " files. Continue ?", "Yes", "No") == DialogResult.OK)
                 {
-                    AddtoLog("Bucket " + this.currentBucketName + " has been succesfully deleted.");
-                    this.listMyBuckets.Items.RemoveAt(this.currentBucketIndex);
-                    event_bucketsList_change();
-                    return;
+                    foreach (string file in this.listBoxBucketFiles.Items)
+                        Program.cli.RemoveFromBucket(this.currentBucketName, file);
+
+                    if (Program.cli.DeleteBucket(this.currentBucketName))
+                    {
+                        AddtoLog("Bucket " + this.currentBucketName + " has been succesfully deleted.");
+                        this.listMyBuckets.Items.RemoveAt(this.currentBucketIndex);
+                        event_bucketsList_change();
+                        return;
+                    }
+
+                    AddtoLog("An error occured while trying to delete bucket " + this.currentBucketName + ".\nPlease restart the client and try again.");
                 }
 
-                AddtoLog("An error occured while trying to delete bucket " + this.currentBucketName + ".\nPlease restart the client and try again.");
-                // AddtoLog("An error occured while trying to delete bucket " + this.currentBucketName + ".\nPlease empty your bucket, restart the client and try again.");
+                verbose = _v;
             }
         }
 
@@ -152,23 +157,31 @@ namespace StorjTardigradeWindowsGui
             {
                 Dictionary<string, bool> success = new Dictionary<string, bool>();
                 bool gl_success = true;
-                
-                foreach(string name in this.listBoxBucketFiles.SelectedItems)
+
+                string[] selected = new string[this.listBoxBucketFiles.SelectedItems.Count];
+                this.listBoxBucketFiles.SelectedItems.CopyTo(selected, 0);
+                foreach (string name in selected)
                 {
                     bool succ = Program.cli.RemoveFromBucket(this.currentBucketName, name);
                     if (succ)
-                        if(success.Keys.Count > 1)
-                            AddtoLog("File " + name + " has succesfully been deleted from bucket " + currentBucketName + ".");
+                    {
+                        this.listBoxBucketFiles.Items.Remove(name);
+                        AddtoLog("File " + name + " has succesfully been deleted from bucket " + currentBucketName + ".");
+                    }
                     else
                         AddtoLog("[ ERR ] Error: file " + name + " can't be deleted from bucket " + currentBucketName + ".");
                     success.Add(name, succ);
                     gl_success &= succ;
                 }
 
+                // this.ListBucketFiles();
                 event_bucketFilesList_change();
 
                 if (gl_success)
-                    AddtoLog("Files " + toDel + " have been succesfully deleted from bucket " + currentBucketName + ".");
+                {
+                    if (success.Keys.Count > 1)
+                        AddtoLog("Files " + toDel + " have been succesfully deleted from bucket " + currentBucketName + ".");
+                }
                 else
                     AddtoLog("An error occured while trying to delete files " + toDel + ".\nPlease see above logs for more details.");
             }
@@ -177,7 +190,10 @@ namespace StorjTardigradeWindowsGui
         private void event_UploadFileToBucket(object sender, EventArgs e)
         {
             string filepath = DialogBox.FilePrompt("Upload file to bucket \"" + currentBucketName + "\"");
+            if (filepath == null)
+                return;
             string remoteFilename = Path.GetFileName(filepath);
+
             if (DialogBox.Prompt("Remote filename", "Please enter remote filename:", ref remoteFilename) == DialogResult.OK)
             {
                 Program.cli.UploadToBucket(currentBucketName, filepath, remoteFilename);
@@ -187,10 +203,23 @@ namespace StorjTardigradeWindowsGui
             }
         }
 
+        private void event_DownloadFileFromBucket(object sender, EventArgs e)
+        {
+            string remoteFilename = (string)this.listBoxBucketFiles.SelectedItem;
+            string filepath = DialogBox.FileSavePrompt("Download \"" + remoteFilename + "\"", remoteFilename);
+            if (filepath == null)
+                return;
+
+            Program.cli.DownloadFromBucket(currentBucketName, filepath, remoteFilename);
+            AddtoLog("Succesfully downloaded " + remoteFilename + " to \"" + filepath + "\".");
+        }
+
         private void event_SelectBucket(object sender, System.Windows.Forms.ListViewItemSelectionChangedEventArgs e)
         {
             if(e.IsSelected)
             {
+                if(this.listMyBuckets.Items[e.ItemIndex].Text != this.currentBucketName)
+                    this.listBoxBucketFiles.Items.Clear();
                 this.groupBucketControls_baseName = this.bucketControls.Text;
                 // Console.WriteLine(this.listMyBuckets.Items[e.ItemIndex].GetType());
                 this.currentBucketName = this.listMyBuckets.Items[e.ItemIndex].Text;
@@ -219,8 +248,19 @@ namespace StorjTardigradeWindowsGui
             else
                 this.buttonBucketRemoveFile.Enabled = false;
 
+            if (this.listBoxBucketFiles.SelectedItems.Count == 1)
+                this.buttonRetrieveFile.Enabled = true;
+            else
+                this.buttonRetrieveFile.Enabled = false;
+
             foreach (var item in this.listBoxBucketFiles.SelectedItems)
                 break;
+        }
+
+        private void event_textBoxLogOutput_changed(object sender, EventArgs e)
+        {
+            this.textBoxLogOutput.SelectionStart = this.textBoxLogOutput.Text.Length;
+            this.textBoxLogOutput.ScrollToCaret();
         }
 
         /*
