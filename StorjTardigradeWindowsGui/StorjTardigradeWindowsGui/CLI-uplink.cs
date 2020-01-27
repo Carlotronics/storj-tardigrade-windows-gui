@@ -23,25 +23,13 @@ public class CLIUplink
     {
         Console.WriteLine(this.filename);
         System.Diagnostics.Process p = new System.Diagnostics.Process();
-        // System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
         // startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
         p.StartInfo.FileName = this.filename;
         p.StartInfo.Arguments = cmd;
-        // p.StartInfo = startInfo;
         p.StartInfo.RedirectStandardOutput = RedirectStandardOutput;
         p.StartInfo.UseShellExecute = false;
         p.StartInfo.RedirectStandardError = false;
         p.Start();
-
-        /*
-        string q = "";
-        while (!p.HasExited)
-        {
-            q += p.StandardOutput.ReadToEnd();
-        }
-
-        return q;
-        */
 
         if (RedirectStandardOutput)
         {

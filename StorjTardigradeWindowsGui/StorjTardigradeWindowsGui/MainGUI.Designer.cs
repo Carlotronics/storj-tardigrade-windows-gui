@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainGUI));
             this.title = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.labelAuthor = new System.Windows.Forms.Label();
             this.groupManageBuckets = new System.Windows.Forms.GroupBox();
             this.groupMyBuckets = new System.Windows.Forms.GroupBox();
             this.listMyBuckets = new System.Windows.Forms.ListView();
@@ -41,6 +41,8 @@
             this.groupOutput = new System.Windows.Forms.GroupBox();
             this.textBoxLogOutput = new System.Windows.Forms.RichTextBox();
             this.bucketControls = new System.Windows.Forms.GroupBox();
+            this.labelFileSize = new System.Windows.Forms.Label();
+            this.labelFileDate = new System.Windows.Forms.Label();
             this.boxBucketFiles = new System.Windows.Forms.GroupBox();
             this.listBoxBucketFiles = new System.Windows.Forms.ListBox();
             this.buttonBucketListFiles = new System.Windows.Forms.Button();
@@ -48,8 +50,6 @@
             this.buttonRetrieveFile = new System.Windows.Forms.Button();
             this.buttonBucketRemoveFile = new System.Windows.Forms.Button();
             this.buttonBucketUploadFile = new System.Windows.Forms.Button();
-            this.labelFileDate = new System.Windows.Forms.Label();
-            this.labelFileSize = new System.Windows.Forms.Label();
             this.groupManageBuckets.SuspendLayout();
             this.groupMyBuckets.SuspendLayout();
             this.groupOutput.SuspendLayout();
@@ -70,16 +70,16 @@
             this.title.Text = "Storj Uplink GUI";
             this.title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label2
+            // labelAuthor
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(1002, 589);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(102, 17);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "by Carlotronics";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelAuthor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelAuthor.AutoSize = true;
+            this.labelAuthor.Location = new System.Drawing.Point(1002, 589);
+            this.labelAuthor.Name = "labelAuthor";
+            this.labelAuthor.Size = new System.Drawing.Size(102, 17);
+            this.labelAuthor.TabIndex = 1;
+            this.labelAuthor.Text = "by Carlotronics";
+            this.labelAuthor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupManageBuckets
             // 
@@ -115,7 +115,7 @@
             this.listMyBuckets.MultiSelect = false;
             this.listMyBuckets.Name = "listMyBuckets";
             this.listMyBuckets.Size = new System.Drawing.Size(276, 324);
-            this.listMyBuckets.TabIndex = 0;
+            this.listMyBuckets.TabIndex = this.buttonCreateBucket.TabIndex + 1;
             this.listMyBuckets.UseCompatibleStateImageBehavior = false;
             this.listMyBuckets.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.event_SelectBucket);
             // 
@@ -124,7 +124,7 @@
             this.buttonCreateBucket.Location = new System.Drawing.Point(26, 113);
             this.buttonCreateBucket.Name = "buttonCreateBucket";
             this.buttonCreateBucket.Size = new System.Drawing.Size(112, 48);
-            this.buttonCreateBucket.TabIndex = 0;
+            this.buttonCreateBucket.TabIndex = this.buttonListBuckets.TabIndex + 1;
             this.buttonCreateBucket.Text = "Create bucket";
             this.buttonCreateBucket.UseVisualStyleBackColor = true;
             this.buttonCreateBucket.Click += new System.EventHandler(this.buttonCreateBucket_Click);
@@ -185,6 +185,26 @@
             this.bucketControls.Text = "Bucket:";
             this.bucketControls.Visible = false;
             // 
+            // labelFileSize
+            // 
+            this.labelFileSize.AutoSize = true;
+            this.labelFileSize.Location = new System.Drawing.Point(18, 491);
+            this.labelFileSize.Name = "labelFileSize";
+            this.labelFileSize.Size = new System.Drawing.Size(87, 17);
+            this.labelFileSize.TabIndex = 2;
+            this.labelFileSize.Text = "labelFileSize";
+            this.labelFileSize.Visible = false;
+            // 
+            // labelFileDate
+            // 
+            this.labelFileDate.AutoSize = true;
+            this.labelFileDate.Location = new System.Drawing.Point(18, 466);
+            this.labelFileDate.Name = "labelFileDate";
+            this.labelFileDate.Size = new System.Drawing.Size(90, 17);
+            this.labelFileDate.TabIndex = 2;
+            this.labelFileDate.Text = "labelFileDate";
+            this.labelFileDate.Visible = false;
+            // 
             // boxBucketFiles
             // 
             this.boxBucketFiles.Controls.Add(this.listBoxBucketFiles);
@@ -204,15 +224,17 @@
             this.listBoxBucketFiles.Name = "listBoxBucketFiles";
             this.listBoxBucketFiles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.listBoxBucketFiles.Size = new System.Drawing.Size(314, 260);
-            this.listBoxBucketFiles.TabIndex = 1;
+            this.listBoxBucketFiles.TabIndex = this.buttonRetrieveFile.TabIndex + 1;
             this.listBoxBucketFiles.SelectedIndexChanged += new System.EventHandler(this.event_SelectBucketFile);
+            this.listBoxBucketFiles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.event_BucketFileDoubleClick);
+            this.listBoxBucketFiles.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.event_BucketFileKeyPress);
             // 
             // buttonBucketListFiles
             // 
             this.buttonBucketListFiles.Location = new System.Drawing.Point(21, 47);
             this.buttonBucketListFiles.Name = "buttonBucketListFiles";
             this.buttonBucketListFiles.Size = new System.Drawing.Size(112, 48);
-            this.buttonBucketListFiles.TabIndex = 0;
+            this.buttonBucketListFiles.TabIndex = this.listMyBuckets.TabIndex + 1;
             this.buttonBucketListFiles.Text = "List files";
             this.buttonBucketListFiles.UseVisualStyleBackColor = true;
             this.buttonBucketListFiles.Click += new System.EventHandler(this.event_ListBucketFiles);
@@ -222,7 +244,7 @@
             this.buttonDeleteBucket.Location = new System.Drawing.Point(220, 466);
             this.buttonDeleteBucket.Name = "buttonDeleteBucket";
             this.buttonDeleteBucket.Size = new System.Drawing.Size(112, 48);
-            this.buttonDeleteBucket.TabIndex = 0;
+            this.buttonDeleteBucket.TabIndex = this.listBoxBucketFiles.TabIndex + 1;
             this.buttonDeleteBucket.Text = "Delete bucket";
             this.buttonDeleteBucket.UseVisualStyleBackColor = true;
             this.buttonDeleteBucket.Click += new System.EventHandler(this.event_DeleteBucket);
@@ -233,7 +255,7 @@
             this.buttonRetrieveFile.Location = new System.Drawing.Point(202, 113);
             this.buttonRetrieveFile.Name = "buttonRetrieveFile";
             this.buttonRetrieveFile.Size = new System.Drawing.Size(112, 48);
-            this.buttonRetrieveFile.TabIndex = 0;
+            this.buttonRetrieveFile.TabIndex = this.buttonBucketUploadFile.TabIndex + 1;
             this.buttonRetrieveFile.Text = "Download file";
             this.buttonRetrieveFile.UseVisualStyleBackColor = true;
             this.buttonRetrieveFile.Click += new System.EventHandler(this.event_DownloadFileFromBucket);
@@ -244,7 +266,7 @@
             this.buttonBucketRemoveFile.Location = new System.Drawing.Point(202, 47);
             this.buttonBucketRemoveFile.Name = "buttonBucketRemoveFile";
             this.buttonBucketRemoveFile.Size = new System.Drawing.Size(112, 48);
-            this.buttonBucketRemoveFile.TabIndex = 0;
+            this.buttonBucketRemoveFile.TabIndex = this.buttonBucketListFiles.TabIndex + 1;
             this.buttonBucketRemoveFile.Text = "Remove file";
             this.buttonBucketRemoveFile.UseVisualStyleBackColor = true;
             this.buttonBucketRemoveFile.Click += new System.EventHandler(this.event_RemoveFileFromBucket);
@@ -254,30 +276,10 @@
             this.buttonBucketUploadFile.Location = new System.Drawing.Point(21, 113);
             this.buttonBucketUploadFile.Name = "buttonBucketUploadFile";
             this.buttonBucketUploadFile.Size = new System.Drawing.Size(112, 48);
-            this.buttonBucketUploadFile.TabIndex = 0;
+            this.buttonBucketUploadFile.TabIndex = this.buttonBucketRemoveFile.TabIndex + 1;
             this.buttonBucketUploadFile.Text = "Upload file";
             this.buttonBucketUploadFile.UseVisualStyleBackColor = true;
             this.buttonBucketUploadFile.Click += new System.EventHandler(this.event_UploadFileToBucket);
-            // 
-            // labelFileDate
-            // 
-            this.labelFileDate.AutoSize = true;
-            this.labelFileDate.Location = new System.Drawing.Point(18, 466);
-            this.labelFileDate.Name = "labelFileDate";
-            this.labelFileDate.Size = new System.Drawing.Size(90, 17);
-            this.labelFileDate.TabIndex = 2;
-            this.labelFileDate.Text = "labelFileDate";
-            this.labelFileDate.Visible = false;
-            // 
-            // labelFileSize
-            // 
-            this.labelFileSize.AutoSize = true;
-            this.labelFileSize.Location = new System.Drawing.Point(18, 491);
-            this.labelFileSize.Name = "labelFileSize";
-            this.labelFileSize.Size = new System.Drawing.Size(87, 17);
-            this.labelFileSize.TabIndex = 2;
-            this.labelFileSize.Text = "labelFileSize";
-            this.labelFileSize.Visible = false;
             // 
             // MainGUI
             // 
@@ -287,7 +289,7 @@
             this.Controls.Add(this.bucketControls);
             this.Controls.Add(this.groupOutput);
             this.Controls.Add(this.groupManageBuckets);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.labelAuthor);
             this.Controls.Add(this.title);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainGUI";
@@ -306,7 +308,7 @@
         #endregion
 
         private System.Windows.Forms.Label title;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelAuthor;
         private System.Windows.Forms.GroupBox groupManageBuckets;
         private System.Windows.Forms.Button buttonListBuckets;
         private System.Windows.Forms.GroupBox groupOutput;

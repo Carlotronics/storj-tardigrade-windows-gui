@@ -172,6 +172,8 @@ namespace StorjTardigradeWindowsGui
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string filename = saveFileDialog.FileName;
+                lastPath = Path.GetDirectoryName(filename);
+                Tools.SaveSettings();
                 return filename;
             }
 

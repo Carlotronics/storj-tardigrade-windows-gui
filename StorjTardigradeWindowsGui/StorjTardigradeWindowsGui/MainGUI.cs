@@ -199,8 +199,15 @@ namespace StorjTardigradeWindowsGui
             if (DialogBox.Prompt("Remote filename", "Please enter remote filename:", ref remoteFilename) == DialogResult.OK)
             {
                 Program.cli.UploadToBucket(currentBucketName, filepath, remoteFilename);
+                bool _v = verbose;
                 this.listBoxBucketFiles.Items.Add(remoteFilename);
                 this.event_bucketFilesList_change();
+
+                var _d = new Dictionary<string, string>();
+                _d.Add("name", remoteFilename);
+                Program.BucketFiles.Add(_d);
+                verbose = _v;
+
                 AddtoLog("Succesfully uploaded " + remoteFilename + " to \"" + currentBucketName + "\" bucket.");
             }
         }
@@ -245,6 +252,10 @@ namespace StorjTardigradeWindowsGui
         {
             Console.WriteLine("Selected");
 
+            this.buttonRetrieveFile.Enabled = false;
+            this.labelFileDate.Hide();
+            this.labelFileSize.Hide();
+
             if (this.listBoxBucketFiles.SelectedItems.Count > 0)
                 this.buttonBucketRemoveFile.Enabled = true;
             else
@@ -255,22 +266,20 @@ namespace StorjTardigradeWindowsGui
                 string _t;
 
                 if (Program.BucketFiles[this.listBoxBucketFiles.SelectedIndex].TryGetValue("creation_datetime", out _t))
+                {
                     this.labelFileDate.Text = _t;
+                    this.labelFileDate.Show();
+                }
 
                 int _tt;
                 if (Program.BucketFiles[this.listBoxBucketFiles.SelectedIndex].TryGetValue("size", out _t))
                     if (int.TryParse(_t, out _tt))
+                    {
                         this.labelFileSize.Text = Tools.FormatSize(_tt);
+                        this.labelFileSize.Show();
+                    }
 
                 this.buttonRetrieveFile.Enabled = true;
-                this.labelFileDate.Show();
-                this.labelFileSize.Show();
-            }
-            else
-            {
-                this.buttonRetrieveFile.Enabled = false;
-                this.labelFileDate.Hide();
-                this.labelFileSize.Hide();
             }
 
             foreach (var item in this.listBoxBucketFiles.SelectedItems)
@@ -318,6 +327,40 @@ namespace StorjTardigradeWindowsGui
                 else
                 {
                     AddtoLog("An error occured while creating bucket " + value + ". Please try again.");
+                }
+            }
+        }
+
+        private void OpenFile(string remoteFilename)
+        {
+            string localFilename = Path.Combine(Path.GetTempPath(), remoteFilename);
+
+            Program.cli.DownloadFromBucket(currentBucketName, localFilename, remoteFilename);
+
+            System.Diagnostics.Process.Start(localFilename);
+        }
+
+        private void event_BucketFileDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (this.listBoxBucketFiles.SelectedItems.Count == 1)
+            {
+                string remoteFilename = (string)this.listBoxBucketFiles.SelectedItem;
+                this.OpenFile(remoteFilename);
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void event_BucketFileKeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == Convert.ToChar(Keys.Return))
+            {
+                if (this.listBoxBucketFiles.SelectedItems.Count == 1)
+                {
+                    string remoteFilename = (string)this.listBoxBucketFiles.SelectedItem;
+                    this.OpenFile(remoteFilename);
                 }
             }
         }
