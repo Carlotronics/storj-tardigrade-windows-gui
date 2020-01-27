@@ -45,11 +45,11 @@
             this.labelFileDate = new System.Windows.Forms.Label();
             this.boxBucketFiles = new System.Windows.Forms.GroupBox();
             this.listBoxBucketFiles = new System.Windows.Forms.ListBox();
+            this.buttonRetrieveFile = new System.Windows.Forms.Button();
+            this.buttonBucketUploadFile = new System.Windows.Forms.Button();
+            this.buttonBucketRemoveFile = new System.Windows.Forms.Button();
             this.buttonBucketListFiles = new System.Windows.Forms.Button();
             this.buttonDeleteBucket = new System.Windows.Forms.Button();
-            this.buttonRetrieveFile = new System.Windows.Forms.Button();
-            this.buttonBucketRemoveFile = new System.Windows.Forms.Button();
-            this.buttonBucketUploadFile = new System.Windows.Forms.Button();
             this.groupManageBuckets.SuspendLayout();
             this.groupMyBuckets.SuspendLayout();
             this.groupOutput.SuspendLayout();
@@ -115,7 +115,7 @@
             this.listMyBuckets.MultiSelect = false;
             this.listMyBuckets.Name = "listMyBuckets";
             this.listMyBuckets.Size = new System.Drawing.Size(276, 324);
-            this.listMyBuckets.TabIndex = this.buttonCreateBucket.TabIndex + 1;
+            this.listMyBuckets.TabIndex = 0;
             this.listMyBuckets.UseCompatibleStateImageBehavior = false;
             this.listMyBuckets.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.event_SelectBucket);
             // 
@@ -124,7 +124,7 @@
             this.buttonCreateBucket.Location = new System.Drawing.Point(26, 113);
             this.buttonCreateBucket.Name = "buttonCreateBucket";
             this.buttonCreateBucket.Size = new System.Drawing.Size(112, 48);
-            this.buttonCreateBucket.TabIndex = this.buttonListBuckets.TabIndex + 1;
+            this.buttonCreateBucket.TabIndex = 0;
             this.buttonCreateBucket.Text = "Create bucket";
             this.buttonCreateBucket.UseVisualStyleBackColor = true;
             this.buttonCreateBucket.Click += new System.EventHandler(this.buttonCreateBucket_Click);
@@ -213,7 +213,7 @@
             this.boxBucketFiles.Size = new System.Drawing.Size(326, 286);
             this.boxBucketFiles.TabIndex = 1;
             this.boxBucketFiles.TabStop = false;
-            this.boxBucketFiles.Text = "My buckets";
+            this.boxBucketFiles.Text = "My bucket\'s files";
             this.boxBucketFiles.Visible = false;
             // 
             // listBoxBucketFiles
@@ -224,17 +224,49 @@
             this.listBoxBucketFiles.Name = "listBoxBucketFiles";
             this.listBoxBucketFiles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.listBoxBucketFiles.Size = new System.Drawing.Size(314, 260);
-            this.listBoxBucketFiles.TabIndex = this.buttonRetrieveFile.TabIndex + 1;
+            this.listBoxBucketFiles.TabIndex = 0;
             this.listBoxBucketFiles.SelectedIndexChanged += new System.EventHandler(this.event_SelectBucketFile);
-            this.listBoxBucketFiles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.event_BucketFileDoubleClick);
             this.listBoxBucketFiles.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.event_BucketFileKeyPress);
+            this.listBoxBucketFiles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.event_BucketFileDoubleClick);
+            // 
+            // buttonRetrieveFile
+            // 
+            this.buttonRetrieveFile.Enabled = false;
+            this.buttonRetrieveFile.Location = new System.Drawing.Point(202, 113);
+            this.buttonRetrieveFile.Name = "buttonRetrieveFile";
+            this.buttonRetrieveFile.Size = new System.Drawing.Size(112, 48);
+            this.buttonRetrieveFile.TabIndex = 0;
+            this.buttonRetrieveFile.Text = "Download file";
+            this.buttonRetrieveFile.UseVisualStyleBackColor = true;
+            this.buttonRetrieveFile.Click += new System.EventHandler(this.event_DownloadFileFromBucket);
+            // 
+            // buttonBucketUploadFile
+            // 
+            this.buttonBucketUploadFile.Location = new System.Drawing.Point(21, 113);
+            this.buttonBucketUploadFile.Name = "buttonBucketUploadFile";
+            this.buttonBucketUploadFile.Size = new System.Drawing.Size(112, 48);
+            this.buttonBucketUploadFile.TabIndex = 0;
+            this.buttonBucketUploadFile.Text = "Upload file";
+            this.buttonBucketUploadFile.UseVisualStyleBackColor = true;
+            this.buttonBucketUploadFile.Click += new System.EventHandler(this.event_UploadFileToBucket);
+            // 
+            // buttonBucketRemoveFile
+            // 
+            this.buttonBucketRemoveFile.Enabled = false;
+            this.buttonBucketRemoveFile.Location = new System.Drawing.Point(202, 47);
+            this.buttonBucketRemoveFile.Name = "buttonBucketRemoveFile";
+            this.buttonBucketRemoveFile.Size = new System.Drawing.Size(112, 48);
+            this.buttonBucketRemoveFile.TabIndex = 0;
+            this.buttonBucketRemoveFile.Text = "Remove file";
+            this.buttonBucketRemoveFile.UseVisualStyleBackColor = true;
+            this.buttonBucketRemoveFile.Click += new System.EventHandler(this.event_RemoveFileFromBucket);
             // 
             // buttonBucketListFiles
             // 
             this.buttonBucketListFiles.Location = new System.Drawing.Point(21, 47);
             this.buttonBucketListFiles.Name = "buttonBucketListFiles";
             this.buttonBucketListFiles.Size = new System.Drawing.Size(112, 48);
-            this.buttonBucketListFiles.TabIndex = this.listMyBuckets.TabIndex + 1;
+            this.buttonBucketListFiles.TabIndex = 0;
             this.buttonBucketListFiles.Text = "List files";
             this.buttonBucketListFiles.UseVisualStyleBackColor = true;
             this.buttonBucketListFiles.Click += new System.EventHandler(this.event_ListBucketFiles);
@@ -244,42 +276,10 @@
             this.buttonDeleteBucket.Location = new System.Drawing.Point(220, 466);
             this.buttonDeleteBucket.Name = "buttonDeleteBucket";
             this.buttonDeleteBucket.Size = new System.Drawing.Size(112, 48);
-            this.buttonDeleteBucket.TabIndex = this.listBoxBucketFiles.TabIndex + 1;
+            this.buttonDeleteBucket.TabIndex = 0;
             this.buttonDeleteBucket.Text = "Delete bucket";
             this.buttonDeleteBucket.UseVisualStyleBackColor = true;
             this.buttonDeleteBucket.Click += new System.EventHandler(this.event_DeleteBucket);
-            // 
-            // buttonRetrieveFile
-            // 
-            this.buttonRetrieveFile.Enabled = false;
-            this.buttonRetrieveFile.Location = new System.Drawing.Point(202, 113);
-            this.buttonRetrieveFile.Name = "buttonRetrieveFile";
-            this.buttonRetrieveFile.Size = new System.Drawing.Size(112, 48);
-            this.buttonRetrieveFile.TabIndex = this.buttonBucketUploadFile.TabIndex + 1;
-            this.buttonRetrieveFile.Text = "Download file";
-            this.buttonRetrieveFile.UseVisualStyleBackColor = true;
-            this.buttonRetrieveFile.Click += new System.EventHandler(this.event_DownloadFileFromBucket);
-            // 
-            // buttonBucketRemoveFile
-            // 
-            this.buttonBucketRemoveFile.Enabled = false;
-            this.buttonBucketRemoveFile.Location = new System.Drawing.Point(202, 47);
-            this.buttonBucketRemoveFile.Name = "buttonBucketRemoveFile";
-            this.buttonBucketRemoveFile.Size = new System.Drawing.Size(112, 48);
-            this.buttonBucketRemoveFile.TabIndex = this.buttonBucketListFiles.TabIndex + 1;
-            this.buttonBucketRemoveFile.Text = "Remove file";
-            this.buttonBucketRemoveFile.UseVisualStyleBackColor = true;
-            this.buttonBucketRemoveFile.Click += new System.EventHandler(this.event_RemoveFileFromBucket);
-            // 
-            // buttonBucketUploadFile
-            // 
-            this.buttonBucketUploadFile.Location = new System.Drawing.Point(21, 113);
-            this.buttonBucketUploadFile.Name = "buttonBucketUploadFile";
-            this.buttonBucketUploadFile.Size = new System.Drawing.Size(112, 48);
-            this.buttonBucketUploadFile.TabIndex = this.buttonBucketRemoveFile.TabIndex + 1;
-            this.buttonBucketUploadFile.Text = "Upload file";
-            this.buttonBucketUploadFile.UseVisualStyleBackColor = true;
-            this.buttonBucketUploadFile.Click += new System.EventHandler(this.event_UploadFileToBucket);
             // 
             // MainGUI
             // 
