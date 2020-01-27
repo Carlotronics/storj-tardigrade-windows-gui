@@ -25,11 +25,11 @@ namespace StorjTardigradeWindowsGui
         internal static bool LoadSettings()
         {
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\StorjTardigradeWindowsGui");
-            if(key != null)
+            if (key != null)
             {
-                Program.UplinkCLIPath = (string) key.GetValue("UplinkCLIPath");
-                if(key.GetValue("filePrompt-lastPath") != null)
-                    DialogBox.lastPath = (string) key.GetValue("filePrompt-lastPath");
+                Program.UplinkCLIPath = (string)key.GetValue("UplinkCLIPath");
+                if (key.GetValue("filePrompt-lastPath") != null)
+                    DialogBox.lastPath = (string)key.GetValue("filePrompt-lastPath");
 
                 if (Program.UplinkCLIPath == null)
                     return false;
@@ -51,7 +51,22 @@ namespace StorjTardigradeWindowsGui
             string s = "";
             foreach (var el in list)
                 s += el + sep;
-            return s.Length> sep.Length ? s.Substring(0, s.Length - sep.Length) : s;
+            return s.Length > sep.Length ? s.Substring(0, s.Length - sep.Length) : s;
+        }
+
+        internal static string FormatSize(int size)
+        {
+            double len = (double)size;
+            string[] sizes = { "B", "KB", "MB", "GB", "TB" };
+            int order = 0;
+            while (len >= 1024 && order < sizes.Length - 1)
+            {
+                order++;
+                len /= 1024;
+            }
+
+            string result = String.Format("{0:0.##} {1}", len, sizes[order]);
+            return result;
         }
     }
 }

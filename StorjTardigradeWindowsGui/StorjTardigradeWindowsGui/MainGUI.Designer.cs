@@ -48,6 +48,8 @@
             this.buttonRetrieveFile = new System.Windows.Forms.Button();
             this.buttonBucketRemoveFile = new System.Windows.Forms.Button();
             this.buttonBucketUploadFile = new System.Windows.Forms.Button();
+            this.labelFileDate = new System.Windows.Forms.Label();
+            this.labelFileSize = new System.Windows.Forms.Label();
             this.groupManageBuckets.SuspendLayout();
             this.groupMyBuckets.SuspendLayout();
             this.groupOutput.SuspendLayout();
@@ -167,6 +169,8 @@
             // bucketControls
             // 
             this.bucketControls.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.bucketControls.Controls.Add(this.labelFileSize);
+            this.bucketControls.Controls.Add(this.labelFileDate);
             this.bucketControls.Controls.Add(this.boxBucketFiles);
             this.bucketControls.Controls.Add(this.buttonBucketListFiles);
             this.bucketControls.Controls.Add(this.buttonDeleteBucket);
@@ -255,6 +259,26 @@
             this.buttonBucketUploadFile.UseVisualStyleBackColor = true;
             this.buttonBucketUploadFile.Click += new System.EventHandler(this.event_UploadFileToBucket);
             // 
+            // labelFileDate
+            // 
+            this.labelFileDate.AutoSize = true;
+            this.labelFileDate.Location = new System.Drawing.Point(18, 466);
+            this.labelFileDate.Name = "labelFileDate";
+            this.labelFileDate.Size = new System.Drawing.Size(90, 17);
+            this.labelFileDate.TabIndex = 2;
+            this.labelFileDate.Text = "labelFileDate";
+            this.labelFileDate.Visible = false;
+            // 
+            // labelFileSize
+            // 
+            this.labelFileSize.AutoSize = true;
+            this.labelFileSize.Location = new System.Drawing.Point(18, 491);
+            this.labelFileSize.Name = "labelFileSize";
+            this.labelFileSize.Size = new System.Drawing.Size(87, 17);
+            this.labelFileSize.TabIndex = 2;
+            this.labelFileSize.Text = "labelFileSize";
+            this.labelFileSize.Visible = false;
+            // 
             // MainGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -272,6 +296,7 @@
             this.groupMyBuckets.ResumeLayout(false);
             this.groupOutput.ResumeLayout(false);
             this.bucketControls.ResumeLayout(false);
+            this.bucketControls.PerformLayout();
             this.boxBucketFiles.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -298,6 +323,8 @@
         private System.Windows.Forms.ListBox listBoxBucketFiles;
         private System.Windows.Forms.RichTextBox textBoxLogOutput;
         private System.Windows.Forms.Button buttonRetrieveFile;
+        private System.Windows.Forms.Label labelFileDate;
+        private System.Windows.Forms.Label labelFileSize;
     }
 }
 

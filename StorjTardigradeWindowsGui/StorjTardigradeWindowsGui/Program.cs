@@ -10,8 +10,10 @@ namespace StorjTardigradeWindowsGui
     static class Program
     {
         public static CLIUplink cli;
-        public static List<Dictionary<string, string>> Buckets = null;
         public static string UplinkCLIPath = @"%userprofile%\storj-uplink\uplink_windows_amd64.exe";
+
+        public static List<Dictionary<string, string>> Buckets = null;
+        public static List<Dictionary<string, string>> BucketFiles = null;
         /// <summary>
         /// Point d'entrée principal de l'application.
         /// </summary>

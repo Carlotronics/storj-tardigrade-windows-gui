@@ -31,7 +31,6 @@ public class CLIUplink
         p.StartInfo.RedirectStandardOutput = RedirectStandardOutput;
         p.StartInfo.UseShellExecute = false;
         p.StartInfo.RedirectStandardError = false;
-        p.StartInfo.StandardOutputEncoding = System.Text.Encoding.UTF8;
         p.Start();
 
         /*
@@ -46,6 +45,7 @@ public class CLIUplink
 
         if (RedirectStandardOutput)
         {
+            p.StartInfo.StandardOutputEncoding = System.Text.Encoding.UTF8;
             string output = p.StandardOutput.ReadToEnd();
             p.WaitForExit();
             return this.ParseOutput(output);

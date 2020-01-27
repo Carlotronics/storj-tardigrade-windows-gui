@@ -87,6 +87,8 @@ namespace StorjTardigradeWindowsGui
             }
             else
                 AddtoLog("No file for bucket " + this.currentBucketName);
+
+            Program.BucketFiles = filesList;
         }
 
         private void event_ListBucketFiles(object sender, EventArgs e)
@@ -249,9 +251,27 @@ namespace StorjTardigradeWindowsGui
                 this.buttonBucketRemoveFile.Enabled = false;
 
             if (this.listBoxBucketFiles.SelectedItems.Count == 1)
+            {
+                string _t;
+
+                if (Program.BucketFiles[this.listBoxBucketFiles.SelectedIndex].TryGetValue("creation_datetime", out _t))
+                    this.labelFileDate.Text = _t;
+
+                int _tt;
+                if (Program.BucketFiles[this.listBoxBucketFiles.SelectedIndex].TryGetValue("size", out _t))
+                    if (int.TryParse(_t, out _tt))
+                        this.labelFileSize.Text = Tools.FormatSize(_tt);
+
                 this.buttonRetrieveFile.Enabled = true;
+                this.labelFileDate.Show();
+                this.labelFileSize.Show();
+            }
             else
+            {
                 this.buttonRetrieveFile.Enabled = false;
+                this.labelFileDate.Hide();
+                this.labelFileSize.Hide();
+            }
 
             foreach (var item in this.listBoxBucketFiles.SelectedItems)
                 break;
