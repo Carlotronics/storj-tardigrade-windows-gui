@@ -54,7 +54,7 @@ namespace StorjTardigradeWindowsGui
             return s.Length > sep.Length ? s.Substring(0, s.Length - sep.Length) : s;
         }
 
-        internal static string FormatSize(int size)
+        internal static string FormatSize(long size)
         {
             double len = (double)size;
             string[] sizes = { "B", "KB", "MB", "GB", "TB" };

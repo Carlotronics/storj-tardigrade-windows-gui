@@ -120,16 +120,22 @@ public class CLIUplink
             Dictionary<string, string> d = new Dictionary<string, string>();
             string[] _t = this.CleanOutputLine(line);
 
-            d.Add("type", _t[0]);
-            d.Add("creation_datetime", _t[1] + " " + _t[2]);
-            d.Add("size", _t[3]);
-            string _name = _t[4];
-            for (int i = 5; i < _t.Length; ++i)
-                if (_t[i].Trim().Length > 0)
-                    _name += " " + _t[i];
-            d.Add("name", _name);
+            string type = _t[0];
+            d.Add("type", type);
 
-            final.Add(d);
+            if(type == "OBJ")
+            {
+                d.Add("creation_datetime", _t[1] + " " + _t[2]);
+                d.Add("size", _t[3]);
+                string _name = _t[4];
+                for (int i = 5; i < _t.Length; ++i)
+                    if (_t[i].Trim().Length > 0)
+                        _name += " " + _t[i];
+                d.Add("name", _name);
+
+                final.Add(d);
+            }
+
         }
 
         return final;

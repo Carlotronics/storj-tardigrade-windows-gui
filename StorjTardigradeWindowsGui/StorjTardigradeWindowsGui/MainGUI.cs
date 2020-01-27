@@ -271,9 +271,10 @@ namespace StorjTardigradeWindowsGui
                     this.labelFileDate.Show();
                 }
 
-                int _tt;
+                Int64 _tt;
                 if (Program.BucketFiles[this.listBoxBucketFiles.SelectedIndex].TryGetValue("size", out _t))
-                    if (int.TryParse(_t, out _tt))
+                    Console.WriteLine("File size - step 1: " + _t);
+                    if (Int64.TryParse(_t, out _tt))
                     {
                         this.labelFileSize.Text = Tools.FormatSize(_tt);
                         this.labelFileSize.Show();
@@ -302,16 +303,6 @@ namespace StorjTardigradeWindowsGui
         private void buttonListBuckets_Click(object sender, EventArgs e)
         {
             RefreshBucketsList();
-        }
-
-        private void AddtoLog(string s, bool clear=false)
-        {
-            if (!verbose)
-                return;
-            if (clear)
-                this.textBoxLogOutput.Text = "";
-            this.textBoxLogOutput.AppendText(s + "\n");
-            Console.WriteLine(s);
         }
 
         private void buttonCreateBucket_Click(object sender, EventArgs e)
@@ -363,6 +354,16 @@ namespace StorjTardigradeWindowsGui
                     this.OpenFile(remoteFilename);
                 }
             }
+        }
+
+        private void AddtoLog(string s, bool clear = false)
+        {
+            if (!verbose)
+                return;
+            if (clear)
+                this.textBoxLogOutput.Text = "";
+            this.textBoxLogOutput.AppendText(s + "\n");
+            Console.WriteLine(s);
         }
     }
 }
