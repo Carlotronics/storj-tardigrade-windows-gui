@@ -31,6 +31,7 @@ public class CLIUplink
         p.StartInfo.RedirectStandardOutput = RedirectStandardOutput;
         p.StartInfo.UseShellExecute = false;
         p.StartInfo.RedirectStandardError = false;
+        p.StartInfo.StandardOutputEncoding = System.Text.Encoding.UTF8;
         p.Start();
 
         /*
@@ -127,6 +128,7 @@ public class CLIUplink
         List<Dictionary<string, string>> final = new List<Dictionary<string, string>>();
         foreach (string line in outp)
         {
+            Console.WriteLine(line);
             Dictionary<string, string> d = new Dictionary<string, string>();
             string[] _t = this.CleanOutputLine(line);
 
