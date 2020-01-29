@@ -10,6 +10,7 @@ namespace StorjTardigradeWindowsGui
     static class Program
     {
         public static CLIUplink cli;
+        public static UplinkWrapper Uplink;
         public static string UplinkCLIPath = @"%userprofile%\storj-uplink\uplink_windows_amd64.exe";
 
         public static List<Dictionary<string, string>> Buckets = null;
@@ -25,6 +26,8 @@ namespace StorjTardigradeWindowsGui
         {
             // Console.OutputEncoding = System.Text.Encoding.UTF8;
             Root = new Root();
+
+            Uplink = new UplinkWrapper();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -44,6 +47,7 @@ namespace StorjTardigradeWindowsGui
 
             cli = new CLIUplink(UplinkCLIPath);
 
+            /*
             if (!cli.IsRegistered())
             {
                 if(DialogBox.Alert("Log in to Tardigrade Network", "This client has to be used with Uplink CLI.\nPlease first login using your API token first.\n\nDetailled informations can be found at https://documentation.tardigrade.io/api-reference/uplink-cli.\n\n") == DialogResult.OK)
@@ -60,6 +64,7 @@ namespace StorjTardigradeWindowsGui
                     // System.Environment.Exit(1);
                 }
             }
+            */
 
             Application.Run(new MainGUI());
         }

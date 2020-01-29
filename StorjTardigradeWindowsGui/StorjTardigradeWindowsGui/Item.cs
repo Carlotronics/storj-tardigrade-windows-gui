@@ -15,6 +15,7 @@ namespace StorjTardigradeWindowsGui
         internal string CreationDatetime;
         internal System.Windows.Forms.TreeNode Node = null;
         internal bool HasFetchedChilds = false;
+        internal Bucket bucket = null;
 
         private List<Item> Childs;
 
@@ -71,7 +72,7 @@ namespace StorjTardigradeWindowsGui
             return this.GetName();
         }
 
-        public abstract string GetPath();
+        public abstract string GetPath(bool regardingOverallRoot = true);
         // public abstract string GetName();
         public abstract string GetDisplayText();
     }
@@ -80,7 +81,7 @@ namespace StorjTardigradeWindowsGui
     {
         public Root() : base("", "") { }
 
-        public override string GetPath()
+        public override string GetPath(bool regardingOverallRoot = true)
         {
             return this.root;
         }
@@ -94,10 +95,11 @@ namespace StorjTardigradeWindowsGui
     class Bucket: Item
     {
         public Bucket(string name) : base("sj://", name) {}
+        public Bucket(string name, string creationDatetime) : base("sj://", name, creationDatetime) { }
 
-        public override string GetPath()
+        public override string GetPath(bool regardingOverallRoot=true)
         {
-            return this.GetDisplayText();
+            return regardingOverallRoot ? this.GetDisplayText() : "";
         }
 
         public override string GetDisplayText()
@@ -111,9 +113,12 @@ namespace StorjTardigradeWindowsGui
         public Folder(string root, string name) : base(root, name) { }
         // public Folder(string root, string name, string creationDatetime) : base(root, name, creationDatetime) { }
 
-        public override string GetPath()
+        public override string GetPath(bool regardingOverallRoot = true)
         {
-            return this.root + this.GetDisplayText();
+            return (regardingOverallRoot
+                    ? this.root
+                    : Tools.RemoveBucketNameFromPath(this.root))
+                + this.GetDisplayText();
         }
 
         public override string GetDisplayText()
@@ -128,11 +133,15 @@ namespace StorjTardigradeWindowsGui
 
         public File(string root, string name, long size) : base(root, name) { this.size = size; }
         public File(string root, string name, string size) : base(root, name) { long.TryParse(size, out this.size); }
+        public File(string root, string name, long size, string creationDatetime) : base(root, name, creationDatetime)
+        {
+            this.size = size;
+        }
         public File(string root, string name, string size, string creationDatetime) : base(root, name, creationDatetime) {
             long.TryParse(size, out this.size);
         }
 
-        public override string GetPath()
+        public override string GetPath(bool regardingOverallRoot = true)
         {
             return this.root + this.GetDisplayText();
         }

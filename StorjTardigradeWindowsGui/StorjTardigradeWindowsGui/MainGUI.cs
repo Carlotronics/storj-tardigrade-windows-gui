@@ -33,21 +33,10 @@ namespace StorjTardigradeWindowsGui
         }
 
 
-        public void event_ItemsTreeAfterSelect(object obj, TreeViewEventArgs e)
+        public async void event_ItemsTreeAfterSelect(object obj, TreeViewEventArgs e)
         {
             currentNode = this.treeProjectStorageTree.SelectedNode;
             currentItem = (Item)currentNode.Tag;
-
-            Console.WriteLine("Selected node !!!");
-
-            Console.Write("\t");
-            Console.WriteLine(currentNode.Index.ToString());
-
-            Console.Write("\t");
-            Console.WriteLine(currentNode.ToString());
-
-            Console.Write("\t");
-            Console.WriteLine("Type: " + ((Item)currentNode.Tag).GetType().FullName);
 
             switch(currentItem.GetType().Name)
             {
@@ -55,7 +44,7 @@ namespace StorjTardigradeWindowsGui
                 case "Folder":
                     if (!currentItem.HasFetchedChilds)
                     {
-                        this.ListFiles(currentItem);
+                        await this.ListFiles(currentItem);
                         currentItem.HasFetchedChilds = true;
                     }
                     break;
@@ -66,21 +55,18 @@ namespace StorjTardigradeWindowsGui
                 default:
                     return;
             }
-
-            // if(selectedNode.Tag.GetType().IsSubclassOf(typeof(Item)))
-            Console.Write("\t");
-            Console.WriteLine(currentNode.Tag);
-            ((Item)currentNode.Tag).GetPath();
-
-            Console.WriteLine("=================");
         }
 
-        public void ListFiles(Item item)
+        public async Task ListFiles(Item item, TreeNodeCollection NodesList = null)
         {
-            Program.cli.List(item);
-            foreach(Item child in item.GetChilds())
+            await Program.Uplink.ListItems(item);
+
+            NodesList = NodesList == null ? item.Node.Nodes : NodesList;
+
+            NodesList.Clear();
+            foreach (Item child in item.GetChilds())
             {
-                child.Node = AddChildToNode(item.Node.Nodes, child);
+                child.Node = AddChildToNode(NodesList, child);
                 switch(child.GetType().Name)
                 {
                     case "Bucket":
@@ -103,15 +89,19 @@ namespace StorjTardigradeWindowsGui
          * 
         */
 
-        public void RefreshBucketsList()
+        public async void RefreshBucketsList()
         {
             Item root = Program.Root;
-            Program.cli.List(root);
+            // Program.cli.List(root);
+            // await Program.Uplink.ListItems(root);
+            await ListFiles(root, this.treeProjectStorageTree.Nodes);
 
             if (root.GetChilds().Count > 0)
                 AddtoLog(root.GetChilds().Count.ToString() + " buckets retrieved");
             else
                 AddtoLog("No buckets");
+
+            return;
 
             this.treeProjectStorageTree.Nodes.Clear();
             foreach (Item bucket in root.GetChilds())
@@ -273,9 +263,6 @@ namespace StorjTardigradeWindowsGui
 
         private void ListBucketFiles()
         {
-            List<Dictionary<string, string>> filesList = Program.cli.ListFilesInBucket(this.currentBucketName);
-            this.treeProjectStorageTree.Nodes.Clear();
-
             // TODO
             /*
             if (filesList.Count > 0)

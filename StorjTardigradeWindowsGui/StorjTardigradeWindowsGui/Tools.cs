@@ -98,5 +98,15 @@ namespace StorjTardigradeWindowsGui
 
             return final;
         }
+
+        internal static string RemoveBucketNameFromPath(string path)
+        {
+            int beginIndex = 3;
+            string[] parts = path.Split('/');
+            string[] usefulParts = new string[parts.Length - beginIndex];
+            for (int i = 0; i < parts.Length - beginIndex; ++i)
+                usefulParts[i] = parts[i + beginIndex];
+            return String.Join("/", usefulParts);
+        }
     }
 }

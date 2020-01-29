@@ -121,35 +121,6 @@ namespace StorjTardigradeWindowsGui
             return true;
         }
 
-        public List<Dictionary<string, string>> ListBuckets()
-        {
-            string cmd = "ls";
-            List<String> outp = this.RunCommand(cmd);
-
-            List<Dictionary<string, string>> final = new List<Dictionary<string, string>>();
-
-            if (outp.Count == 1 && outp[0].Equals("No buckets"))
-                return final;
-
-            foreach (string line in outp)
-            {
-                Dictionary<string, string> d = new Dictionary<string, string>();
-                string[] _t = this.CleanOutputLine(line);
-
-                d.Add("type", _t[0]);
-                d.Add("creation_datetime", _t[1] + " " + _t[2]);
-                string _name = _t[3];
-                for (int i = 4; i < _t.Length; ++i)
-                    if (_t[i].Trim().Length > 0)
-                        _name += " " + _t[i];
-                d.Add("name", _name);
-
-                final.Add(d);
-            }
-
-            return final;
-        }
-
         public int List(Item root)
         {
             string cmd = "ls";
@@ -162,39 +133,6 @@ namespace StorjTardigradeWindowsGui
             this.ParseLsOutput(root, outp);
 
             return outp.Count;
-        }
-
-        public List<Dictionary<string, string>> ListFilesInBucket(string bucketName)
-        {
-            string cmd = "ls \"" + Tools.FormatBucketName(bucketName) + "\"";
-            List<String> outp = this.RunCommand(cmd);
-
-            List<Dictionary<string, string>> final = new List<Dictionary<string, string>>();
-            foreach (string line in outp)
-            {
-                Console.WriteLine(line);
-                Dictionary<string, string> d = new Dictionary<string, string>();
-                string[] _t = this.CleanOutputLine(line);
-
-                string type = _t[0];
-                d.Add("type", type);
-
-                if (type == "OBJ")
-                {
-                    d.Add("creation_datetime", _t[1] + " " + _t[2]);
-                    d.Add("size", _t[3]);
-                    string _name = _t[4];
-                    for (int i = 5; i < _t.Length; ++i)
-                        if (_t[i].Trim().Length > 0)
-                            _name += " " + _t[i];
-                    d.Add("name", _name);
-
-                    final.Add(d);
-                }
-
-            }
-
-            return final;
         }
 
         public bool CreateBucket(string name)
