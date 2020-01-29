@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StorjTardigradeWindowsGui
 {
-    static class Tools
+    public static class Tools
     {
         internal static void PrintListOfDict(List<Dictionary<string, string>> d)
         {
@@ -67,6 +67,36 @@ namespace StorjTardigradeWindowsGui
 
             string result = String.Format("{0:0.##} {1}", len, sizes[order]);
             return result;
+        }
+
+        internal static string FormatBucketName(string name)
+        {
+            return "sj://" + name + "/";
+        }
+
+        internal static string JoinArrayBetweenIndexes(string[] arr, int beg, int end=-1)
+        {
+            if (end == -1)
+                end = arr.Length;
+            int len = end - beg;
+            string[] _arr = new string[len];
+
+            for (var i = 0; i < len; ++i)
+                _arr[i] = arr[beg + i];
+
+            return String.Join(" ", _arr);
+        }
+
+        internal static string SubString(string str, int beg, int end)
+        {
+            if (end < 0)
+                end = (str.Length + end) % str.Length;
+            
+            string final = "";
+            for (int i = beg; i < end; ++i)
+                final += "" + str[i];
+
+            return final;
         }
     }
 }

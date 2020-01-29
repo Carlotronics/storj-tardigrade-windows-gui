@@ -14,6 +14,9 @@ namespace StorjTardigradeWindowsGui
 
         public static List<Dictionary<string, string>> Buckets = null;
         public static List<Dictionary<string, string>> BucketFiles = null;
+
+        public static Item Root;
+
         /// <summary>
         /// Point d'entrée principal de l'application.
         /// </summary>
@@ -21,13 +24,14 @@ namespace StorjTardigradeWindowsGui
         static void Main()
         {
             // Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Root = new Root();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             Tools.LoadSettings();
 
-            while(UplinkCLIPath == null || !File.Exists(UplinkCLIPath))
+            while(UplinkCLIPath == null || !System.IO.File.Exists(UplinkCLIPath))
             {
                 if (DialogBox.Alert("Uplink CLI location", "Please select the Uplink CLI file in the following window.") == DialogResult.OK)
                 {
