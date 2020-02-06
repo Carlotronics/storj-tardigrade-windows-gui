@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace StorjTardigradeWindowsGui
 {
@@ -17,6 +18,7 @@ namespace StorjTardigradeWindowsGui
         internal System.Windows.Forms.TreeNodeCollection _nodesCollection = null;
         internal bool HasFetchedChilds = false;
         internal Bucket bucket = null;
+        internal System.Windows.Forms.ContextMenuStrip contextMenu;
 
         private List<Item> Childs;
 
@@ -25,6 +27,8 @@ namespace StorjTardigradeWindowsGui
             this.root = root;
             this.name = name;
             this.Childs = new List<Item>();
+
+            this.InitContextMenu();
         }
 
         protected Item(string root, string name, string creationDatetime)
@@ -33,6 +37,54 @@ namespace StorjTardigradeWindowsGui
             this.name = name;
             this.Childs = new List<Item>();
             this.CreationDatetime = creationDatetime;
+
+            this.InitContextMenu();
+        }
+
+        private void InitContextMenu()
+        {
+            if (this is Root)
+                return;
+
+            this.contextMenu = new ContextMenuStrip();
+
+            ToolStripMenuItem _item;
+            switch (this)
+            {
+                case Bucket b:
+                    _item = new ToolStripMenuItem();
+                    _item.Name = "Refresh";
+                    _item.Text = "Refresh";
+                    // _item.Click
+                    // TODO
+                    // this.contextMenu.Items.Add(_item);
+                    break;
+
+                case Folder fd:
+                    _item = new ToolStripMenuItem();
+                    _item.Name = "Refresh";
+                    _item.Text = "Refresh";
+                    // _item.Click
+                    // TODO
+                    // this.contextMenu.Items.Add(_item);
+                    break;
+
+                case File fl:
+                    _item = new ToolStripMenuItem();
+                    _item.Name = "Download";
+                    _item.Text = "Download";
+                    _item.Click += new EventHandler(this.DownloadFile);
+                    this.contextMenu.Items.Add(_item);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private void DownloadFile(object sender, EventArgs e)
+        {
+            Program.mainGUI.AddtoLog("To downlowd: " + this.ID());
         }
 
         public bool AddChild(Item child)
@@ -56,6 +108,8 @@ namespace StorjTardigradeWindowsGui
             child.Node = t;
 
             Program.mainGUI.event_itemsList_change();
+
+            t.ContextMenuStrip = child.contextMenu;
             
             return true;
         }

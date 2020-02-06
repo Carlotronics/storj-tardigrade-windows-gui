@@ -501,7 +501,7 @@ namespace StorjTardigradeWindowsGui
          * 
         */
 
-        private void AddtoLog(string s, bool clear = false)
+        internal void AddtoLog(string s, bool clear = false)
         {
             if (!verbose)
                 return;

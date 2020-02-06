@@ -259,6 +259,7 @@
             this.treeProjectStorageTree.PathSeparator = "";
             this.treeProjectStorageTree.Size = new System.Drawing.Size(339, 504);
             this.treeProjectStorageTree.TabIndex = 2;
+            // this.treeProjectStorageTree.MouseClick += new System.Windows.Forms.MouseEventHandler(this.event_ItemsTreeAfterMouseClick);
             this.treeProjectStorageTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.event_ItemsTreeAfterSelect);
             // 
             // MainGUI
