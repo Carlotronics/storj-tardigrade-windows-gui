@@ -53,6 +53,8 @@ namespace StorjTardigradeWindowsGui
             else
                 this.Node.Nodes.Add(t);
 
+            child.Node = t;
+
             Program.mainGUI.event_itemsList_change();
             
             return true;

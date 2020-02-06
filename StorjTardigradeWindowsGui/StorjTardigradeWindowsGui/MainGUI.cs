@@ -28,8 +28,8 @@ namespace StorjTardigradeWindowsGui
             this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             InitializeComponent();
             Program.Root._nodesCollection = treeProjectStorageTree.Nodes;
+            RefreshBucketsList();
 #if !DEBUG
-                RefreshBucketsList();
 #endif
         }
 
@@ -132,6 +132,7 @@ namespace StorjTardigradeWindowsGui
             return AddChildToNode(this.treeProjectStorageTree.Nodes, bucket);
         }
 
+        // SEEMS UNUSED (replaced by Item.AddChild)
         private TreeNode AddChildToNode(TreeNodeCollection parentNodeChilds, Item item)
         {
             var t = new TreeNode(item.GetDisplayText());
