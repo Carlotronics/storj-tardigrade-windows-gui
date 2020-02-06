@@ -14,6 +14,7 @@ namespace StorjTardigradeWindowsGui
 
         internal string CreationDatetime;
         internal System.Windows.Forms.TreeNode Node = null;
+        internal System.Windows.Forms.TreeNodeCollection _nodesCollection = null;
         internal bool HasFetchedChilds = false;
         internal Bucket bucket = null;
 
@@ -36,17 +37,43 @@ namespace StorjTardigradeWindowsGui
 
         public bool AddChild(Item child)
         {
-            if (!this.Childs.Contains(child))
-            {
-                this.Childs.Add(child);
-                return true;
-            }
+            foreach (Item _c in this.Childs)
+                if (_c.GetName() == child.GetName() && _c.GetPath() == _c.GetPath() && _c.GetType() == child.GetType())
+                    return false;
+            
+            // Add to local childs list
+            this.Childs.Add(child);
 
-            return false;
+            // Add on Tree
+            var t = new System.Windows.Forms.TreeNode(child.GetDisplayText());
+            t.Tag = child;
+            t.Name = child.GetName();
+            if (this is Root)
+                this._nodesCollection.Add(t);
+            else
+                this.Node.Nodes.Add(t);
+
+            Program.mainGUI.event_itemsList_change();
+            
+            return true;
+        }
+
+        public bool RemoveChild(Item child)
+        {
+            if (!this.Childs.Contains(child))
+                return false;
+
+            if (child.Node != null)
+                child.Node.Remove();
+
+            return this.Childs.Remove(child);
         }
 
         public void ResetChildsList()
         {
+            foreach (Item child in this.Childs)
+                if (child.Node != null)
+                    child.Node.Remove();
             this.Childs.Clear();
         }
 
@@ -70,6 +97,11 @@ namespace StorjTardigradeWindowsGui
         public override string ToString()
         {
             return this.GetName();
+        }
+
+        public string ID()
+        {
+            return this.GetName() + "; " + this.GetPath() + "; " + this.GetType();
         }
 
         public abstract string GetPath(bool regardingOverallRoot = true);

@@ -27,6 +27,7 @@ namespace StorjTardigradeWindowsGui
             this.AutoSize = true;
             this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             InitializeComponent();
+            Program.Root._nodesCollection = treeProjectStorageTree.Nodes;
 #if !DEBUG
                 RefreshBucketsList();
 #endif
@@ -63,10 +64,13 @@ namespace StorjTardigradeWindowsGui
 
             NodesList = NodesList == null ? item.Node.Nodes : NodesList;
 
-            NodesList.Clear();
+            // NodesList.Clear();
             foreach (Item child in item.GetChilds())
             {
-                child.Node = AddChildToNode(NodesList, child);
+                /*
+                if(child.Node == null)
+                    child.Node = AddChildToNode(NodesList, child);
+                */
                 switch(child.GetType().Name)
                 {
                     case "Bucket":
@@ -140,9 +144,8 @@ namespace StorjTardigradeWindowsGui
 
             return t;
         }
-
-        // TODO
-        private void event_itemsList_change()
+        
+        public void event_itemsList_change()
         {
             if (this.treeProjectStorageTree.Nodes.Count > 0)
             {
@@ -207,6 +210,8 @@ namespace StorjTardigradeWindowsGui
             string value = "";
             if (DialogBox.Prompt("New bucket", "Enter new bucket's name :", ref value) == DialogResult.OK)
             {
+                // TODO
+                /*
                 if (Program.cli.CreateBucket(value))
                 {
                     Bucket bucket = new Bucket(value);
@@ -217,6 +222,7 @@ namespace StorjTardigradeWindowsGui
                 {
                     AddtoLog("An error occured while creating bucket " + value + ". Please try again.");
                 }
+                */
             }
         }
 
@@ -448,7 +454,7 @@ namespace StorjTardigradeWindowsGui
         {
             string localFilename = Path.Combine(Path.GetTempPath(), remoteFilename);
 
-            Program.cli.DownloadFromBucket(currentBucketName, localFilename, remoteFilename);
+            // Program.cli.DownloadFromBucket(currentBucketName, localFilename, remoteFilename);
 
             System.Diagnostics.Process.Start(localFilename);
         }

@@ -108,5 +108,18 @@ namespace StorjTardigradeWindowsGui
                 usefulParts[i] = parts[i + beginIndex];
             return String.Join("/", usefulParts);
         }
+
+        internal static void CheckAndRemoveDeletedItems(Item root, List<string> currentItemsIDs)
+        {
+            List<Item> _toRemove = new List<Item>();
+            foreach(Item child in root.GetChilds())
+            {
+                if (!currentItemsIDs.Contains(child.ID()))
+                    _toRemove.Add(child);
+            }
+
+            foreach(Item child in _toRemove)
+                root.RemoveChild(child);
+        }
     }
 }

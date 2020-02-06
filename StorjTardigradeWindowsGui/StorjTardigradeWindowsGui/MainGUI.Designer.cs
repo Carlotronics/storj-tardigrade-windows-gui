@@ -29,10 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Nœud2");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Nœud0", new System.Windows.Forms.TreeNode[] {
-            treeNode1});
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Nœud1");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainGUI));
             this.title = new System.Windows.Forms.Label();
             this.labelAuthor = new System.Windows.Forms.Label();
@@ -192,6 +188,7 @@
             // 
             // buttonBucketListFiles
             // 
+            this.buttonBucketListFiles.Enabled = false;
             this.buttonBucketListFiles.Location = new System.Drawing.Point(21, 23);
             this.buttonBucketListFiles.Name = "buttonBucketListFiles";
             this.buttonBucketListFiles.Size = new System.Drawing.Size(112, 48);
@@ -202,6 +199,7 @@
             // 
             // buttonDeleteBucket
             // 
+            this.buttonDeleteBucket.Enabled = false;
             this.buttonDeleteBucket.Location = new System.Drawing.Point(166, 191);
             this.buttonDeleteBucket.Name = "buttonDeleteBucket";
             this.buttonDeleteBucket.Size = new System.Drawing.Size(112, 48);
@@ -234,6 +232,7 @@
             // 
             // buttonBucketUploadFile
             // 
+            this.buttonBucketUploadFile.Enabled = false;
             this.buttonBucketUploadFile.Location = new System.Drawing.Point(21, 89);
             this.buttonBucketUploadFile.Name = "buttonBucketUploadFile";
             this.buttonBucketUploadFile.Size = new System.Drawing.Size(112, 48);
@@ -257,16 +256,6 @@
             // 
             this.treeProjectStorageTree.Location = new System.Drawing.Point(6, 16);
             this.treeProjectStorageTree.Name = "treeProjectStorageTree";
-            treeNode1.Name = "Nœud2";
-            treeNode1.Text = "Nœud2";
-            treeNode2.Checked = true;
-            treeNode2.Name = "Nœud0";
-            treeNode2.Text = "Nœud0";
-            treeNode3.Name = "Nœud1";
-            treeNode3.Text = "Nœud1";
-            this.treeProjectStorageTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2,
-            treeNode3});
             this.treeProjectStorageTree.PathSeparator = "";
             this.treeProjectStorageTree.Size = new System.Drawing.Size(339, 504);
             this.treeProjectStorageTree.TabIndex = 2;
@@ -316,7 +305,7 @@
         private System.Windows.Forms.Label labelFileDate;
         private System.Windows.Forms.Label labelFileSize;
         private System.Windows.Forms.Label labelTotalSize;
-        private System.Windows.Forms.TreeView treeProjectStorageTree;
+        public System.Windows.Forms.TreeView treeProjectStorageTree;
     }
 }
 

@@ -16,7 +16,8 @@ namespace StorjTardigradeWindowsGui
         public static List<Dictionary<string, string>> Buckets = null;
         public static List<Dictionary<string, string>> BucketFiles = null;
 
-        public static Item Root;
+        public static Root Root;
+        public static MainGUI mainGUI;
 
         /// <summary>
         /// Point d'entrée principal de l'application.
@@ -66,7 +67,9 @@ namespace StorjTardigradeWindowsGui
             }
             */
 
-            Application.Run(new MainGUI());
+            Uplink.Init();
+            mainGUI = new MainGUI();
+            Application.Run(mainGUI);
         }
     }
 }

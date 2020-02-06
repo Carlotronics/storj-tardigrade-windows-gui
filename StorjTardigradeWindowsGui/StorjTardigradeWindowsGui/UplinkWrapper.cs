@@ -24,14 +24,28 @@ namespace StorjTardigradeWindowsGui
                 APIKey,
                 satelliteAddress,
                 encryptionPassphrase);
+        }
+
+        public UplinkWrapper(string accessToken)
+        {
+            Scope.SetTempDirectory(System.IO.Path.GetTempPath());
+            this._scope = new Scope(accessToken);
+        }
+
+        public bool Init()
+        {
+            /*
+            UplinkConfig uplinkConfig = new UplinkConfig();
+            Uplink upl = new Uplink(uplinkConfig);
+            Project proj = new Project(upl, _scope.GetAPIKey(), _scope.GetSatelliteAddress());
+            */
             this.bucketService = new BucketService(_scope);
+            return true;
         }
 
         async private Task ListBuckets()
         {
-            Console.WriteLine("Debug 5");
             BucketListOptions listOptions = new BucketListOptions();
-            Console.WriteLine("Debug 6");
 
             /*var _task = bucketService.ListBucketsAsync(listOptions);
             _task.Wait();
@@ -39,19 +53,27 @@ namespace StorjTardigradeWindowsGui
             var buckets = _task.Result;
             */
             var buckets = await bucketService.ListBucketsAsync(listOptions);
-            
+
+            List<string> retrieved = new List<string>();
+
             foreach(BucketInfo bucket in buckets.Items)
             {
                 Console.WriteLine(bucket.Created.ToString());
                 Bucket _b = new Bucket(bucket.Name, bucket.Created.ToString());
                 Program.Root.AddChild(_b);
+
+                retrieved.Add(_b.ID());
             }
 
+            Tools.CheckAndRemoveDeletedItems(Program.Root, retrieved);
             // return Program.Root.GetChilds().Count;
         }
 
-        async internal Task ListItems(Item root)
+        async internal Task ListItems(Item root, bool hardRefresh=false)
         {
+            if (hardRefresh)
+                root.ResetChildsList();
+
             if (root is Root)
             {
                 await ListBuckets();
@@ -89,9 +111,9 @@ namespace StorjTardigradeWindowsGui
             Console.WriteLine("Delimiter: " + _listOptions.Delimiter);
             Console.WriteLine("\n");
             */
-
-            root.ResetChildsList();
+            
             Item child;
+            List<string> currentItemsIDs = new List<string>();
             foreach (var obj in objects.Items)
             {
                 /*
@@ -115,7 +137,18 @@ namespace StorjTardigradeWindowsGui
 
                 child.bucket = bucket;
                 root.AddChild(child);
+                currentItemsIDs.Add(child.ID());
             }
+
+            Tools.CheckAndRemoveDeletedItems(root, currentItemsIDs);
+        }
+
+        async internal Task<Bucket> CreateBucket(string name)
+        {
+            BucketConfig bucketConfig = new BucketConfig();
+            BucketInfo bucket = await bucketService.CreateBucketAsync("", bucketConfig);
+
+            return null;
         }
     }
 }
